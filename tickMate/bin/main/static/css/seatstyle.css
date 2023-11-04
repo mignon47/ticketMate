@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+/* styles.css */
+.seat {
+    width: 40px;
+    height: 40px;
+    background-color: lightgray;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 40px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.seat.selected {
+    background-color: green;
+    color: white;
+}
