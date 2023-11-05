@@ -1,44 +1,35 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var selectedSeats = [];
     var seatTable = document.getElementById("seat-table");
 
-    // 행과 열 수 설정
-    var numRows = 20; // 행 수 (A, B, C, ...)
-    var numCols = 50; // 열 수 (1, 2, 3, ...)
+    // 구역, 행, 열 수 설정
+    var numSections = 5; // 총 5개의 구역
+    var rowsPerSection = 10; // 각 구역당 10행
+    var colsPerRow = 20; // 각 행당 20열
 
-    // 행 생성
-    for (var i = 0; i < numRows; i++) {
-        var row = document.createElement("tr");
-        
-        // 각 행에 열(좌석) 추가
-        for (var j = 0; j < numCols; j++) {
-            var seat = document.createElement("td");
-            seat.textContent = String.fromCharCode(65 + i) + (j + 1); // A, B, C, ... + 1, 2, 3, ...
-            seat.className = "seat";
-            row.appendChild(seat);
+    // 좌석 생성 및 배치
+    for (var section = 1; section <= numSections; section++) {
+        var sectionHeader = document.createElement("tr");
+        var headerCell = document.createElement("td");
+        headerCell.textContent = "구역 " + section;
+        headerCell.setAttribute("colspan", colsPerRow);
+        sectionHeader.appendChild(headerCell);
+        seatTable.appendChild(sectionHeader);
+
+        for (var row = 0; row < rowsPerSection; row++) {
+            var rowLetter = String.fromCharCode(65 + row); // A, B, C, ...
+            var seatRow = document.createElement("tr");
+
+            for (var col = 1; col <= colsPerRow; col++) {
+                var seat = document.createElement("td");
+                seat.textContent = rowLetter + col;
+                seat.className = "seat";
+                seatRow.appendChild(seat);
+            }
+
+            seatTable.appendChild(seatRow);
         }
-        
-        seatTable.appendChild(row);
     }
 
-    document.querySelectorAll(".seat").forEach(function(seat) {
-        seat.addEventListener("click", function() {
-            seat.classList.toggle("selected");
-            var seatNumber = seat.textContent;
-
-            if (selectedSeats.includes(seatNumber)) {
-                selectedSeats = selectedSeats.filter(item => item !== seatNumber);
-            } else {
-                selectedSeats.push(seatNumber);
-            }
-        });
-    });
-
-    document.getElementById("book-button").addEventListener("click", function() {
-        if (selectedSeats.length > 0) {
-            alert("선택한 좌석: " + selectedSeats.join(", "));
-        } else {
-            alert("좌석을 선택하세요.");
-        }
-    });
+    // 좌석 선택 및 예매 기능 추가 (선택 버튼 등)
+    // 이 부분은 필요에 따라 추가하실 수 있습니다.
 });

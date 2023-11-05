@@ -1,20 +1,76 @@
-<!-- seat.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/seatstyle.css">
-    <title>좌석 배치도</title>
+    <style>
+        .seatcontainer {
+            display: flex;
+        }
+        .seatleft {
+            flex: 2; /* 왼쪽 영역을 2/3로 설정 */
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .seatright {
+            flex: 1; /* 오른쪽 영역을 1/3로 설정 */
+            background-color: #e5e5e5;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>좌석 배치도</h1>
-    <div class="seat-map">
-        <table id="seat-table">
-            <!-- 좌석을 동적으로 생성할 공간 -->
-        </table>
+    <div class="seatcontainer">
+        <div class="seatleft">
+            <!-- 왼쪽 영역의 내용을 여기에 추가 -->
+            <h2>왼쪽 영역</h2>
+            <p>왼쪽 영역의 내용을 여기에 추가합니다.</p>
+        </div>
+        <div class="seatright">
+            <!-- 오른쪽 영역의 내용을 여기에 추가 -->
+             <h2>예매 정보</h2>
+            <div class="booking-info">
+                <h3>공연명</h3>
+                <p>공연 이름 들어갈곳입니다 나중에 넣을게요</p>
+                <h3>구역</h3>
+                <p>구역도 나중에 좌석되면 할수있을것같아요</p>
+                <h3>수량</h3>
+                <button id="decrement">-</button>
+                <span id="seatamount">1</span>
+                <button id="increment">+</button>
+            </div>
+            <hr>
+            <div class="total-amount">
+                <h3>총 금액(구역별 좌석금액이 들어오게해야함)</h3>
+                <p>$<span id="total-amount">100</span></p>
+            </div>
+        </div>
     </div>
-    <button id="book-button">선택</button>
-    <script src="js/seat.js"></script>
+
+    <script>
+        const incrementButton = document.getElementById("increment");
+        const decrementButton = document.getElementById("decrement");
+        const quantityDisplay = document.getElementById("seatamount");
+        const totalAmountDisplay = document.getElementById("total-amount");
+        let seatamount = 1;
+        let unitPrice = 100; // 개당 가격 설정
+
+        incrementButton.addEventListener("click", () => {
+            if (seatamount < 4) {
+            	seatamount++;
+                updateQuantityAndTotal();
+            }
+        });
+
+        decrementButton.addEventListener("click", () => {
+            if (seatamount > 1) {
+            	seatamount--;
+                updateQuantityAndTotal();
+            }
+        });
+
+        function updateQuantityAndTotal() {
+            quantityDisplay.textContent = seatamount;
+            totalAmountDisplay.textContent = seatamount * unitPrice;
+        }
+    </script>
 </body>
 </html>

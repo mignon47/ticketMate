@@ -19,6 +19,7 @@ public class Seat {
     private String seatRow;   // 좌석 행
     private int seatNumber; // 좌석 번호
     private boolean seatStatus; // 좌석 상태
+    private int seatAmount; //수량
 
     public Seat() {
     }

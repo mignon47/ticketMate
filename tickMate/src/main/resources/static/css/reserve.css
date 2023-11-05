@@ -1,0 +1,50 @@
+ body {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: #dee0ef; /* 파스텔톤의 네모 박스 배경색 */
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .section {
+            margin: 20px;
+        }
+
+        select, #seatamount {
+            width: 120px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #00b33c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 60px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }

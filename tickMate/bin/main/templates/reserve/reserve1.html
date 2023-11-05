@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>예매하기</title>
+    <link rel="stylesheet" type="text/css" href="css/reserve.css">
+</head>
+<body>
+    <div class="container">
+        <h1>예매하기</h1>
+        <div class="section">
+            <h3>구역 선택</h3>
+            <select id="zoneSelect">
+                <option value="A">A 구역</option>
+                <option value="B">B 구역</option>
+                <option value="C">C 구역</option>
+            </select>
+        </div>
+        <div class="section">
+            <h3>수량 선택</h3>
+            <button id="decrement">-</button>
+            <input type="text" id="seatamount" value="1" readonly="readonly"/>
+            <button id="increment">+</button>
+        </div>
+        <div class="section">
+            <button id="next">다음</button>
+        </div>
+    </div>
+
+    <script>
+        const incrementButton = document.getElementById("increment");
+        const decrementButton = document.getElementById("decrement");
+        const seatamountInput = document.getElementById("seatamount");
+        const zoneSelect = document.getElementById("zoneSelect");
+        const nextButton = document.getElementById("next");
+
+        let seatamount = 1;
+
+        incrementButton.addEventListener("click", () => {
+            if (seatamount < 4) {
+                seatamount++;
+                seatamountInput.value = seatamount;
+            }
+        });
+
+        decrementButton.addEventListener("click", () => {
+            if (seatamount > 1) {
+                seatamount--;
+                seatamountInput.value = seatamount;
+            }
+        });
+
+        nextButton.addEventListener("click", () => {
+            // 선택한 구역과 수량 정보 가져오기
+            const selectedZone = zoneSelect.value;
+            const selectedSeatAmount = seatamount;
+
+            // 정보를 좌석 선택 페이지로 전달하며 페이지 이동
+            window.location.href = "/reserveseat?zone=" + selectedZone + "&amount=" + selectedSeatAmount;
+        });
+    </script>
+</body>
+</html>
