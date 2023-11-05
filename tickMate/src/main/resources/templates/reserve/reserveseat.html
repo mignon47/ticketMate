@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <title>좌석 선택</title>
+    <link rel="stylesheet" type="text/css" href="css/reserve.css">
+    <style>
+        .seat-area {
+		    display: table;
+		    width: 100%; /* 전체 너비를 사용하도록 설정 */
+		}
+		
+		.seat-row {
+		    display: table-row; /* 각 행을 테이블 행으로 지정 */
+		}
+		
+		.seat {
+		    display: table-cell; /* 각 좌석을 테이블 셀로 지정 */
+		    width: 40px;
+		    height: 40px;
+		    text-align: center;
+		    vertical-align: middle;
+		    border: 2px solid #ccc;
+		    font-size: 14px;
+		    font-family: 'Arial', sans-serif;
+		    cursor: pointer;
+		}
+
+    </style>
 </head>
 <body>
-
+    <div class="container">
+        <h1>좌석 선택</h1>
+        <div class="section">
+            <h3>선택한 구역: <span id="selectedZone"></span></h3>
+            <h3>선택한 수량: <span id="selectedAmount"></span></h3>
+        </div>
+        <div class="section">
+            <div class="stage"></div>
+            <div class="seat-area" id="selected-zone-seats"></div>
+        </div>
+        <div class="section">
+            <button id="payButton">결제하기</button>
+        </div>
+    </div>
+    <script>
+        const selectedZone = document.getElementById("selectedZone");
+        const selectedAmount = document.getElementById("selectedAmount");
+        const selectedSeatsArea = document.getElementById("selected-zone-seats");
+        const zoneSelect = new URLSearchParams(window.location.search).get('zone');
+        const amount = parseInt(new URLSearchParams(window.location.search).get('amount'), 10); // Convert to integer
+        selectedZone.textContent = zoneSelect; // 선택한 구역 표시
+        selectedAmount.textContent = amount; // 선택한 수량 표시
+        const seatArea = document.getElementById("selected-zone-seats");
+        const rows = 5;
+        const cols = 6;
+        let selectedSeats = 0; // 초기 선택된 좌석 수
+        for (let row = 1; row <= rows; row++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.classList.add('seat-row');
+            for (let col = 1; col <= cols; col++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.textContent = zoneSelect + (row + String.fromCharCode(64 + col));
+                // 선택 가능한 좌석으로 설정
+                seat.classList.add('selectable');
+                seat.addEventListener('click', () => {
+                    if (seat.classList.contains('selected')) {
+                        seat.classList.remove('selected');
+                        selectedSeats--;
+                    } else if (selectedSeats < amount) {
+                        seat.classList.add('selected');
+                        selectedSeats++;
+                    }
+                });
+                rowDiv.appendChild(seat);
+            }
+            seatArea.appendChild(rowDiv);
+        }
+        const payButton = document.getElementById('payButton');
+        payButton.addEventListener('click', () => {
+            // 결제 페이지로 이동
+            window.location.href = '/reserve2';
+        });
+    </script>
 </body>
 </html>

@@ -1,50 +1,98 @@
- body {
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
+body {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
 
-        .container {
-            background-color: #dee0ef; /* 파스텔톤의 네모 박스 배경색 */
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            display: inline-block;
-        }
+.container {
+    background-color: #dee0ef; /* 파스텔톤의 네모 박스 배경색 */
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column; /* 세로로 요소를 배치합니다. */
+    align-items: center; /* 수직 중앙 정렬 */
+    text-align: center;
+}
 
-        .section {
-            margin: 20px;
-        }
+.section {
+    margin: 20px;
+}
 
-        select, #seatamount {
-            width: 120px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 5px;
-        }
+select, #seatamount {
+    width: 120px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
 
-        h1 {
-            font-size: 24px;
-        }
+h1 {
+    font-size: 24px;
+}
 
-        h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
+h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
 
-        button {
-            background-color: #00b33c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            width: 60px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-        }
+button {
+    background-color: #00b33c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 60px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.theater {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stage {
+    width: 60%;
+    height: 20px;
+    background-color: #666;
+    margin: 20px auto; 
+    margin-bottom: 20px; /* 원하는 만큼 떨어트리세요 */
+}
+
+
+.seat-area {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6개의 열을 생성 */
+    gap: 10px;
+}
+
+
+.seat {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ccc;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    cursor: pointer;
+}
+
+.seat.selected {
+    background-color: #66bb6a; /* 선택된 좌석의 배경색 */
+    color: white;
+}
+
+.seat.reserved {
+    background-color: #ff4f4f; /* 예약된 좌석의 배경색 */
+    color: white;
+}
+
+
