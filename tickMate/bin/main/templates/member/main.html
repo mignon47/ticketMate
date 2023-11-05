@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	메인임
+
+	<a href="reserve" class="btn btn-primary">reserve</a>
+	<span th:if="${memberId != null}"> <span th:text="${memberId}"></span> 님</span>
+	<a href="login" class="btn btn-primary" th:if="${memberId == null}">login</a>
+
+</body>
+</html>
