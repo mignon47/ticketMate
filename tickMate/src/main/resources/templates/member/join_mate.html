@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hello! TicketMate</title>
+</head>
+<body>
+
+    <div>
+        <form action="/join_mate" method="post">
+            <div>
+                <label for="memberName">이름</label>
+                <input type="text" name="memberName" class="form-control"
+                       placeholder="이름을 입력하세요">
+          	</div>
+          	<div>
+            	<label for="memberId">아이디</label>
+            	<input type="text" name="memberId" class="form-control" placeholder="아이디를 입력하세요">
+        	</div>
+	        <div>
+	            <label for="memberPass">비밀번호</label>
+	            <input type="password" name="memberPass" class="form-control" placeholder="비밀번호를 입력하세요">
+	        </div>
+	        <div>
+                <label for="memberPass2">비밀번호 재확인</label>
+                <input type="password" name="memberPass2" class="form-control"
+                       placeholder="위와 동일한 비밀번호를 입력하세요">
+          	</div>
+	        <div>
+	            <label for="memberEmail">메일</label>
+	            <input type="email" name="memberEmail" class="form-control" placeholder="이메일을 입력하세요">
+	        </div>
+	        <div>
+                <label for="memberPhone">연락처</label>
+                <input type="text" name="memberPhone" class="form-control"
+                       placeholder="연락처를 입력하세요">
+          	</div>
+          	<div>
+            	<label for="memberPost">우편번호</label>
+            	<input type="text" name="memberPost" class="form-control" placeholder="우편번호를 입력하세요">
+        	</div>
+	        <div>
+	            <label for="memberAddress">주소</label>
+	            <input type="text" name="memberAddress" class="form-control" placeholder="주소를 입력하세요">
+	        </div>
+	        <div>
+	            <label for="memberAddressSub">상세주소</label>
+	            <input type="text" name="memberAddressSub" class="form-control" placeholder="상세주소를 입력하세요">
+	        </div>
+	        
+	        <input type="submit" value="가입">
+        </form>
+
+    </div>
+
+</body>
+</html>
+
+<!--  
+
+타임리프 추후 적용 버전 <html xmlns:th="http://www.thymeleaf.org">
+
+	<div>
+		<form action="/join_mate" method="post" th:objcet="${memberForm}">
+			<div>
+			 <label th:for="member_name">이름</label>
+			 <input type="text" th:field="*{member_name}" class="form-control"
+                   placeholder="이름을 입력하세요"
+                   th:class="${#fields.hasErrors('member_name')}? 'form-controlfieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('member_name')}"
+               th:errors="*{member_name}">필수 작성 바랍니다</p>
+			</div>
+			<input type="submit" value="가입">
+		</form>
+		
+	</div>
+-->

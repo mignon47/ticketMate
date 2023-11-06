@@ -1,7 +1,8 @@
 package com.test.ticketmate.member;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +31,8 @@ public class Member {
 	private String memberAddressSub;
 	private String memberPost;
 	private String memberAccount;
-	private Date memberJoindate;
+	@Column(name = "memberJoindate", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false, updatable = false)
+	private LocalDateTime memberJoindate;
 	private String memberStatus;
 	private String memberPointNum;
 }
