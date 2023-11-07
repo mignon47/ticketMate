@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Area Registration</title>
+</head>
+<body>
+    <h1>Area Registration</h1>
+    <form th:action="@{/area_create}" method="post" th:object="${hall}">
+        <label for="areaName">구역명:</label>
+        <input type="text" id="areaName" name="areaName" required="required" /><br/>
+
+        <label for="areaRows">행:</label>
+        <input type="number" id="areaRows" name="areaRows" required="required" /><br/>
+
+        <label for="areaColumns">열:</label>
+        <input type="number" id="areaColumns" name="areaColumns" required="required" /><br/>
+
+        <label for="areaPrice">가격:</label>
+        <input type="number" id="areaPrice" name="areaPrice" required="required" /><br/>
+
+        <button type="button" id="addArea">추가</button>
+        <button type="submit">등록</button>
+    </form>
+
+    <div id="addedAreas">
+        <!-- 동적으로 추가된 입력 필드가 여기에 나타납니다. -->
+    </div>
+
+    <script>
+        document.getElementById("addArea").addEventListener("click", function () {
+            const areaName = document.getElementById("areaName").value;
+            const areaRows = document.getElementById("areaRows").value;
+            const areaColumns = document.getElementById("areaColumns").value;
+            const areaPrice = document.getElementById("areaPrice").value;
+
+            const addedAreas = document.getElementById("addedAreas");
+            const newAreaInfo = document.createElement("p");
+            newAreaInfo.textContent = `구역명: ${areaName}, 행: ${areaRows}, 열: ${areaColumns}, 가격: ${areaPrice}`;
+            addedAreas.appendChild(newAreaInfo);
+
+        });
+    </script>
+</body>
+</html>
