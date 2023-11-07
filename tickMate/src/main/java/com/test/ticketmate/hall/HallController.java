@@ -2,6 +2,8 @@ package com.test.ticketmate.hall;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,48 +30,47 @@ public class HallController {
     }
 	
 	@PostMapping("/hall_create")
-	public String createHall(Hall hall, Model model) {
-	    hallRepository.save(hall);
-
-	    // 이제 저장한 엔티티에서 hall_num 값을 얻을 수 있습니다.
+	public String createHall(Hall hall, HttpSession session, Model model) {
+	    // hall 엔티티를 저장하기 전에 hall_num을 세션에 저장합니다.
+		hallRepository.save(hall);
 	    Long hallNum = hall.getHallNum();
-
-	    // hall_num을 모델에 추가하고 area_create.html로 전달
-	    model.addAttribute("hallNum", hallNum);
-
+	    session.setAttribute("hallNum", hallNum);
+	    
 	    return "show/area_form";
 	}
 
-	
-	@PostMapping("/area_create")
-	public String createHall(@ModelAttribute Hall hall, @RequestParam List<String> areaNames,
-	                         @RequestParam List<Integer> areaRows, @RequestParam List<Integer> areaColumns,
-	                         @RequestParam List<Integer> areaPrices) {
-	    // Hall 정보 저장
-	    hallRepository.save(hall);
-
-	    // Hall 정보에서 hallNum 가져오기
-	    Long hallNum = hall.getHallNum();
-
-	    // 구역 정보 저장
-	    for (int i = 0; i < areaNames.size(); i++) {
-	        Area area = new Area();
+	 @PostMapping("/area_create")
+	    public String createArea(@RequestParam List<String> areaName, @RequestParam List<Integer> areaRows,
+	                             @RequestParam List<Integer> areaColumns, @RequestParam List<Integer> areaPrice,
+	                             HttpSession session) {
+	        // 세션에서 hallNum 읽기
+	        Long hallNum = (Long) session.getAttribute("hallNum");
 	        
-	        // Hall 엔티티와의 관계를 설정
-	        area.setHall(hall);
+	        // Hall 엔티티를 다시 생성하지 않고 이미 생성된 Hall 엔티티를 가져와서 사용합니다.
+	        Hall hall = hallRepository.findById(hallNum).orElse(null);
+	        if (hall == null) {
+	            // Hall 엔티티를 찾을 수 없으면 오류 처리
+	            // (이 부분에 대한 추가적인 오류 처리 로직이 필요할 수 있습니다.)
+	            return "redirect:/error";
+	        }
 	        
-	        area.setAreaName(areaNames.get(i));
-	        area.setAreaRows(areaRows.get(i));
-	        area.setAreaColumns(areaColumns.get(i));
-	        area.setAreaPrice(areaPrices.get(i));
-
-	        areaRepository.save(area);
+	        // 구역 정보 저장
+	        for (int i = 0; i < areaName.size(); i++) {
+	            Area area = new Area();
+	            
+	            // Hall 엔티티와의 관계를 설정
+	            area.setHall(hall);
+	            
+	            area.setAreaName(areaName.get(i));
+	            area.setAreaRows(areaRows.get(i));
+	            area.setAreaColumns(areaColumns.get(i));
+	            area.setAreaPrice(areaPrice.get(i));
+	            
+	            areaRepository.save(area);
+	        }
+	        
+	        return "redirect:/"; // 등록 후 목록 페이지로 이동
 	    }
-
-	    return "redirect:/"; // 등록 후 목록 페이지로 이동
-	}
-
-
 
 
 }
