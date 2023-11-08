@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Area Registration</h1>
-    <form th:action="@{/area_create}" method="post" th:object="${hall}">
+    <form th:action="@{/area_create}" method="post">
         <label for="areaName">구역명:</label>
         <input type="text" id="areaName" name="areaName" required="required" /><br/>
 
@@ -27,19 +27,49 @@
         <!-- 동적으로 추가된 입력 필드가 여기에 나타납니다. -->
     </div>
 
-    <script>
-        document.getElementById("addArea").addEventListener("click", function () {
-            const areaName = document.getElementById("areaName").value;
-            const areaRows = document.getElementById("areaRows").value;
-            const areaColumns = document.getElementById("areaColumns").value;
-            const areaPrice = document.getElementById("areaPrice").value;
+  <script>
+const areaData = [];
 
-            const addedAreas = document.getElementById("addedAreas");
-            const newAreaInfo = document.createElement("p");
-            newAreaInfo.textContent = `구역명: ${areaName}, 행: ${areaRows}, 열: ${areaColumns}, 가격: ${areaPrice}`;
-            addedAreas.appendChild(newAreaInfo);
+document.getElementById("addArea").addEventListener("click", function () {
+    const areaName = document.getElementById("areaName").value;
+    const areaRows = document.getElementById("areaRows").value;
+    const areaColumns = document.getElementById("areaColumns").value;
+    const areaPrice = document.getElementById("areaPrice").value;
 
-        });
-    </script>
+    const areaInfo = {
+        areaName: areaName,
+        areaRows: areaRows,
+        areaColumns: areaColumns,
+        areaPrice: areaPrice
+    };
+
+    fetch("/save_area", {
+        method: "POST",
+        body: JSON.stringify(areaInfo),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("구역 정보가 서버에 저장되었습니다.");
+        // 화면에 표시 (선택 사항)
+        const addedAreas = document.getElementById("addedAreas");
+        const newAreaInfo = document.createElement("p");
+        newAreaInfo.textContent = `구역명: ${areaName}, 행: ${areaRows}, 열: ${areaColumns}, 가격: ${areaPrice}`;
+        addedAreas.appendChild(newAreaInfo);
+    })
+    .catch(error => {
+    });
+
+    // 입력 필드 초기화
+    document.getElementById("areaName").value = "";
+    document.getElementById("areaRows").value = "";
+    document.getElementById("areaColumns").value = "";
+    document.getElementById("areaPrice").value = "";
+});
+
+</script>
+
 </body>
 </html>
