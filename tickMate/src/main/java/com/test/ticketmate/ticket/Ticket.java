@@ -3,8 +3,8 @@ package com.test.ticketmate.ticket;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
-import org.springframework.data.annotation.Id;
 
 import lombok.Getter;
 import lombok.Setter;

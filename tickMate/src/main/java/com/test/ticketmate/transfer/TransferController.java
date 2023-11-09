@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 @Controller
 public class TransferController {
 	
-	private final TransferService transferService;
 	//핀번호추가
 	@GetMapping("/addfin")
 	public String addfin (Model model) {
