@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Perform Registration</title>
+</head>
+<body>
+    <h2>Perform Registration</h2>
+    <form th:action="@{/perform_form}" th:object="${perform}" method="post">
+        <label for="performTitle">공연명:</label>
+        <input type="text" id="performTitle" th:field="*{performTitle}" required>
+        
+        <label for="categoryTitle">분류: </label>
+        <input type="text" id="categoryTitle" th:field="*{categoryTitle}" required>
+        
+        <label for="companyName">회사명:</label>
+        <input type="text" id="companyName" th:field="*{companyName}" required>
+        
+        <label for="hall">공연장:</label>
+        <select id="hall" th:field="*{hall}" required>
+		    <option th:each="hallOption : ${halls}" th:value="${hallOption}" th:text="${hallOption.hallName}"></option>
+		</select>
+        
+        <label for="performPoster">공연 포스터:</label>
+        <input type="text" id="performPoster" th:field="*{performPoster}" required>
+        
+        <label for="performInfo">공연정보:</label>
+        <textarea id="performInfo" th:field="*{performInfo}" required></textarea>
+        
+        <label for="performDate">공연일자:</label>
+        <input type="date" id="performDate" th:field="*{performDate}" required>
+        
+        <label for="performTime">공연시간:</label>
+        <input type="text" id="performTime" th:field="*{performTime}" required>
+        
+        <button type="submit">등록</button>
+    </form>
+</body>
+</html>
