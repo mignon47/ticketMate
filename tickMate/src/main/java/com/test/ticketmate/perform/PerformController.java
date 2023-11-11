@@ -1,5 +1,9 @@
 package com.test.ticketmate.perform;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +23,15 @@ public class PerformController {
 	
 	
 	@Autowired
-    private HallRepository hallRepository;  // HallRepository 주입
+    private HallRepository hallRepository;  
 	
 	@Autowired
 	private PerformService performService;
+	
+	@Autowired
+	private PerformRepository performRepository;
+	
+	
 
 	@GetMapping("/perform_form")
     public String performForm(Model model) {
@@ -39,14 +48,16 @@ public class PerformController {
 	    }
 
 	    Hall selectedHall = perform.getHall();
-	    
 	    perform.setHall(selectedHall);
-	    Date selectedPerformDate = perform.getPerformDate();
-	    
-	    perform.setPerformDate(selectedPerformDate);
 
-	    performService.registerPerform(perform);
-	    return "redirect:/"; // 이동할 경로를 원하는 경로로 수정
+	    performRepository.save(perform);
+
+	    return "redirect:/";
 	}
+
+
+
+
+
 
 }

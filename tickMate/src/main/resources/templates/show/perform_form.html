@@ -17,8 +17,8 @@
         <input type="text" id="companyName" th:field="*{companyName}" required>
         
         <label for="hall">공연장:</label>
-        <select id="hall" th:field="*{hall}" required>
-		    <option th:each="hallOption : ${halls}" th:value="${hallOption}" th:text="${hallOption.hallName}"></option>
+        <select id="hall" th:field="*{hall.hallNum}" required>
+		    <option th:each="hallOption : ${halls}" th:value="${hallOption.hallNum}" th:text="${hallOption.hallName}"></option>
 		</select>
         
         <label for="performPoster">공연 포스터:</label>
@@ -28,7 +28,8 @@
         <textarea id="performInfo" th:field="*{performInfo}" required></textarea>
         
         <label for="performDate">공연일자:</label>
-        <input type="date" id="performDate" th:field="*{performDate}" required>
+		<input type="date" id="performDate" th:field="*{performDate}" required>
+
         
         <label for="performTime">공연시간:</label>
         <input type="text" id="performTime" th:field="*{performTime}" required>

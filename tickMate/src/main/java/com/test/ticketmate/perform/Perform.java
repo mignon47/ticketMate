@@ -1,12 +1,16 @@
 package com.test.ticketmate.perform;
 
-import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import javax.persistence.ManyToOne;
 
 import com.test.ticketmate.hall.Hall;
@@ -35,7 +39,10 @@ public class Perform {
 	
 	private String performPoster;
 	private String performInfo;
-	private Date performDate;
+	
+	@Column(columnDefinition = "DATETIME")
+	private LocalDateTime performDate;
+
 	private String performTime;
 	
 	public void setHall(Hall hall) {
