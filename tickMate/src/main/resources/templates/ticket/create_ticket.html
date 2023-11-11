@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Ticket</title>
+</head>
+<body>
+    <h1>Create Ticket</h1>
+<form action="/ticket" method="post">
+  <select name="category.categoryId">
+    <th:block th:each="category : ${categories}">
+      <option th:value="${category.categoryId}" th:text="${category.categoryTitle}"></option>
+    </th:block>
+  </select>
+  <!-- 그 외 필드에 대한 입력 요소를 추가합니다. -->
+  <input type="submit" value="티켓번호생성">
+</form>
+</body>
+</html>
