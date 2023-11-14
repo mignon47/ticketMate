@@ -52,51 +52,55 @@ public class PaymentController {
         return response;
     }
     
-    @GetMapping("/checkBankHolder")
-    public ResponseEntity<String> checkBankHolder(
-            @RequestParam("bank_code") String bankCode,
-            @RequestParam("bank_num") String bank_num,
-            @RequestHeader("Authorization") String accessToken
-    ) {
-    	
-    	System.out.println("컨트롤러 checkBankHolder");
-    	System.out.println("bank_code : " + bankCode);
-    	System.out.println("bank_num : " + bank_num);
-    	System.out.println("Authorization : " + accessToken);
-    	
-        String apiUrl = "https://api.iamport.kr/vbanks/holder";
-
-        // 필수 코드 은행코드 (필수) bank_code: string /   계좌번호 (필수) bank_num: string
-        String queryString = String.format("bank_code=%s&bank_num=%s", bankCode, bank_num);
-        
-       // System.out.println("queryString: " + queryString);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
-                .query(queryString);
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = new RestTemplate().exchange(
-                builder.toUriString(),
-                HttpMethod.GET,
-                requestEntity,
-                String.class
-        );
-
-        return response;
-    }
+	/* api 작업중 ,, 일단 흐린 눈 해주세요,,,
+	 * @GetMapping("/checkBankHolder") public ResponseEntity<String>
+	 * checkBankHolder(
+	 * 
+	 * @RequestParam("bank_code") String bankCode,
+	 * 
+	 * @RequestParam("bank_num") String bank_num,
+	 * 
+	 * @RequestHeader("Authorization") String accessToken ) {
+	 * 
+	 * System.out.println("컨트롤러 checkBankHolder"); System.out.println("bank_code : "
+	 * + bankCode); System.out.println("bank_num : " + bank_num);
+	 * System.out.println("Authorization : " + accessToken);
+	 * 
+	 * String apiUrl = "https://api.iamport.kr/vbanks/holder";
+	 * 
+	 * // 필수 코드 은행코드 (필수) bank_code: string / 계좌번호 (필수) bank_num: string String
+	 * queryString = String.format("bank_code=%s&bank_num=%s", bankCode, bank_num);
+	 * 
+	 * // System.out.println("queryString: " + queryString);
+	 * 
+	 * HttpHeaders headers = new HttpHeaders(); headers.set("Authorization",
+	 * "Bearer " + accessToken); headers.setContentType(MediaType.APPLICATION_JSON);
+	 * 
+	 * UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+	 * .query(queryString);
+	 * 
+	 * HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+	 * 
+	 * ResponseEntity<String> response = new RestTemplate().exchange(
+	 * builder.toUriString(), HttpMethod.GET, requestEntity, String.class );
+	 * 
+	 * return response; }
+	 */
     
     // 주문 - 결제 페이지 
     @GetMapping("/payment")
     public String payment(HttpSession session, Model model) {
     	
     	Member member = (Member) session.getAttribute("user");
+    	
+    	int memberNum = member.getMemberNum();
+    	session.setAttribute("memberNum", memberNum);
+    	model.addAttribute("memberNum", memberNum);
+    	
     	model.addAttribute("member", member);
         
+    	System.out.println(memberNum);
+    	
     	return "payment/payment"; 
     }
 

@@ -1,16 +1,16 @@
 /*******************************************/
 // 주문번호 생성(m-uid)
-let orderCount = 500; // 테스트로 높이는중 
-
 function generateOrderNum() {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     const day = String(currentDate.getDate()).padStart(2, '0');
     
-    const orderNumber = Number(year + month + day + String(orderCount).padStart(4, '0'));
-    orderCount++; // 다음 주문을 위해 orderCount 증가
+    // 현재 시간을 밀리초로 가져와 난수로 사용
+    const randomNum = Math.floor(Math.random() * 10000);
 
+    const orderNumber =Number(`${year}${month}${day}${randomNum}`);
+    
     return orderNumber;
 }
 
@@ -40,6 +40,27 @@ console.log(formattedDate);
       	var memberPhone = document.getElementById('member_phone').value;
       	var memberPost = document.getElementById('member_post').value;
       	var memberAddress = document.getElementById('member_address').value;
+      	var performNum = document.getElementById('perform_num').value;
+		var quantity = parseInt(document.getElementById('quantity').value);
+		var price = parseInt(document.getElementById('price').value);
+      	var memberNum = document.getElementById('member_num').value;
+		
+		console.log('memberEmail', memberEmail);
+		
+      	// 결제 - 토큰 필요 x 
+  var IMP = window.IMP;
+      IMP.init("imp54524187");
+ 
+      function requestPay() {
+      
+      	var memberName = document.getElementById('member_name').value;
+      	var memberEmail = document.getElementById('member_email').value;
+      	var memberPhone = document.getElementById('member_phone').value;
+      	var memberPost = document.getElementById('member_post').value;
+      	var memberAddress = document.getElementById('member_address').value;
+      	var performNum = document.getElementById('perform_num').value;
+		var quantity = parseInt(document.getElementById('quantity').value);
+		var price = parseInt(document.getElementById('price').value);
       	
       	// 결제방식 선택 - 카드 / 계좌
       	var paymentForm = document.getElementById('paymentForm');
@@ -47,13 +68,17 @@ console.log(formattedDate);
       	
       	const orderNum = generateOrderNum();
       	console.log(orderNum);
+      	console.log('performNum',performNum);
+      	console.log('quantity',quantity);
+      	console.log('price',price);
+      	console.log('memberNum',memberNum);
       	
       	const paymentInfo = {
 	       	pg: "kcp.{INIpayTest}",
 	        pay_method: paymentMethod,
-	        merchant_uid : orderNum,
+	        merchant_uid : orderNum.toString(),
 	        name: "당근 10kg",
-	        amount: 100,
+	        amount: price,
 	        buyer_email: memberEmail,
 	        buyer_name: memberName,
 	        buyer_tel: memberPhone,
@@ -68,8 +93,14 @@ console.log(formattedDate);
 		    memberEmail: memberEmail,
 		    memberPhone: memberPhone,
 		    memberAddress: memberAddress,
-		    memberPost: memberPost
-		});
+		    memberPost: memberPost,
+		    price : price,
+		    quantity : quantity,
+		    memberNum: memberNum,
+		    performNum : performNum
+		}); 
+    	
+    	console.log('paymentParams',paymentParams);
     	
     	IMP.request_pay(paymentInfo, function (rsp) {
         if (rsp.success) {
@@ -84,8 +115,100 @@ console.log(formattedDate);
 	            data: JSON.stringify({
 	                orderNum: paymentInfo.merchant_uid,
 	                payMethod: rsp.pay_method,
+	                price : price,
+	                quantity: quantity,
+	                memberNum: memberNum,
+	                performNum : performNum,
+	                memberName: memberName,
+				    memberEmail: memberEmail,
+				    memberPhone: memberPhone,
+				    memberAddress: memberAddress,
+				    memberPost: memberPost,
 	            }),
 	            success: function (data) {
+		             console.log('AJAX 요청 데이터:', JSON.stringify({
+	            	 orderNum: paymentInfo.merchant_uid,
+	            	 payMethod: rsp.pay_method,
+	            	 price: price,
+	           		 quantity: quantity,
+	                 performNum: performNum,
+	                 memberName: memberName,
+				     memberEmail: memberEmail,
+				     memberPhone: memberPhone,
+				     memberAddress: memberAddress,
+				     memberPost: memberPost,
+	        	}));
+	                console.log('주문 정보 전송 완료:', data);
+	                // 추가로 필요한 로직 수행
+	            },
+	            error: function (error) {
+	                console.error('주문 정보 전송 실패:', error);
+	            }
+	        });
+		  } else {
+            console.log('결제 실패', rsp.error_msg);
+        }
+    });
+}	 
+      	
+      	// 결제방식 선택 - 카드 / 계좌
+      	var paymentForm = document.getElementById('paymentForm');
+    	var paymentMethod = paymentForm.querySelector('input[name="paymentMethod"]:checked').value;
+      	
+      	const orderNum = generateOrderNum();
+      	console.log(orderNum);
+      	console.log('performNum',performNum);
+      	console.log('quantity',quantity);
+      	console.log('price',price);
+      	console.log('memberNum',memberNum);
+      	
+      	const paymentInfo = {
+	       	pg: "kcp.{INIpayTest}",
+	        pay_method: paymentMethod,
+	        merchant_uid : orderNum.toString(),
+	        name: "당근 10kg",
+	        amount: price,
+	        buyer_email: memberEmail,
+	        buyer_name: memberName,
+	        buyer_tel: memberPhone,
+	        buyer_addr: memberAddress,
+	        buyer_postcode: memberPost,
+	      //  vbank_due: formattedDate
+	    };
+    	
+    	IMP.request_pay(paymentInfo, function (rsp) {
+        if (rsp.success) {
+        	console.log('paymentInfo', paymentInfo);
+            console.log('결제 성공');
+            console.log('주문 번호:', orderNum);
+            console.log('결제 수단:', rsp.pay_method);
+            
+	          $.ajax({
+	            type: 'POST',
+	            url: '/paySuccess',  
+	            contentType: 'application/json',
+	            data: JSON.stringify({
+	                orderNum: paymentInfo.merchant_uid,
+	                payMethod: rsp.pay_method,
+	                price : price,
+	                quantity: quantity,
+	                memberNum: memberNum,
+	                memberName : paymentInfo.buyer_name,
+	                memberEmail : paymentInfo.buyer_email,
+	                memberPhone : paymentInfo.buyer_tel,
+	                memberAddress : paymentInfo.buyer_addr,
+	                memberPost : paymentInfo.buyer_postcode,
+	              //  performNum : performNum
+	            }),
+	            success: function (data) {
+		             console.log('AJAX 요청 데이터:', JSON.stringify({
+	            	 orderNum: paymentInfo.merchant_uid,
+	            	 payMethod: rsp.pay_method,
+	            	 price: price,
+	           		 quantity: quantity,
+	            	// performNum: performNum,
+	        	}));
+	        	  	console.log('order 객체 내용:', data);
 	                console.log('주문 정보 전송 완료:', data);
 	                // 추가로 필요한 로직 수행
 	            },

@@ -15,12 +15,16 @@ import javax.persistence.ManyToOne;
 
 import com.test.ticketmate.hall.Hall;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Perform {
 
 	@Id

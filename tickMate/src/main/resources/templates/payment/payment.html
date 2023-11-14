@@ -11,10 +11,15 @@
 <h3>상품정보</h3>
  <label for="performTitle">공연명:</label>
  
- 여기에 상품 정보 , 수량불러와 주세요~~  
+ 여기에 상품 정보 , 수량불러와 주세요~~ 
+ 티켓넘 : num,name같이 갖고와주세여 <input type="text" id="perform_num"><br>
+ 수량 <input type="text" id="quantity" name="quantity"><br>
+ 가격 <input type="text" id="price" name="price"><br>
+ 
  
 <div> 
  <p>주문자정보<span>*</span></p>
+ <input type="hidden" id="member_num" th:value="${member.memberNum}">
  <input type="text" id="member_name" th:value="${member.memberName}" readonly="readonly">
 </div>
 <div>

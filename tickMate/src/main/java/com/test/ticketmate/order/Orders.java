@@ -12,21 +12,42 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.test.ticketmate.member.Member;
 import com.test.ticketmate.perform.Perform;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Orders {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "orderNum")
 	private Long orderNum; //주문번호
 	
-	private int memberNum;
+	// 주문번호 직접 입력
+	 public void setOrderNum(Long orderNum) {
+	        this.orderNum = orderNum;
+    }
+
+	
+	@ManyToOne
+	@JoinColumn(name = "memberNum")
+	private Member memberNum;
+
+	// json 넘어오면서 문자로 인식해서 변환해줌
+	public void setMemberNum(String memberNum) {
+        this.memberNum = new Member();
+        this.memberNum.setMemberNum(Integer.parseInt(memberNum));
+    }
 	
 	@ManyToOne
     @JoinColumn(name = "performNum")
@@ -39,8 +60,8 @@ public class Orders {
     private String memberAddress;
     private String memberPost;
     private String vbankDue;
-	private int quantity;
-	private int price;
+	private Integer quantity;
+	private Integer price;
 	private LocalDateTime orderDate;
 	
 	public enum OrderStatus {// 완료, 대기, 취소

@@ -22,5 +22,10 @@ public class MemberService {
 		
 		return memberNum;
 	}
+	
+	@Transactional
+	public Member findMemberByMemberNum(int memberNum) {
+        return memberRepository.findById(memberNum).orElse(null);
+    }
 
 }
