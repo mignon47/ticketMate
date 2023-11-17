@@ -40,7 +40,7 @@ public class Orders {
 
 	
 	@ManyToOne
-	@JoinColumn(name = "memberNum")
+	@JoinColumn(name = "memberNum", referencedColumnName = "memberNum")
 	private Member memberNum;
 
 	// json 넘어오면서 문자로 인식해서 변환해줌

@@ -18,6 +18,7 @@ public class Member {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "memberNum")
 	private int memberNum;
 	
 	private String memberId;

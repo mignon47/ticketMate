@@ -64,9 +64,9 @@ public class OrdersController {
     }
     
     // 주문 - 결제 완료
-    @GetMapping("/paySuccess")
+    @GetMapping("/orderSuccess")
     public String paySuccess() {
-    	System.out.println("paySuccess 까지 왔는지");
+    	System.out.println("orderSuccess 까지 왔는지");
     	
         return "order/paySuccess"; 
     }

@@ -126,20 +126,7 @@ console.log(formattedDate);
 				    memberPost: memberPost,
 	            }),
 	            success: function (data) {
-		             console.log('AJAX 요청 데이터:', JSON.stringify({
-	            	 orderNum: paymentInfo.merchant_uid,
-	            	 payMethod: rsp.pay_method,
-	            	 price: price,
-	           		 quantity: quantity,
-	                 performNum: performNum,
-	                 memberName: memberName,
-				     memberEmail: memberEmail,
-				     memberPhone: memberPhone,
-				     memberAddress: memberAddress,
-				     memberPost: memberPost,
-	        	}));
 	                console.log('주문 정보 전송 완료:', data);
-	                // 추가로 필요한 로직 수행
 	            },
 	            error: function (error) {
 	                console.error('주문 정보 전송 실패:', error);

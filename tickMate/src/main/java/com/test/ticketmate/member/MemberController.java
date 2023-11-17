@@ -67,6 +67,43 @@ public class MemberController {
         return "redirect:/";
         
 	}	
+	
+	@GetMapping("/mypage")
+	public String mypage(HttpSession session, Model model) {
+		
+		Member member = (Member) session.getAttribute("user");
+		model.addAttribute("member", member);
+		
+		System.out.println("마이페이지");
+		return "member/mypage";
+	}
+	
+	@PostMapping("/mypageUpdate")
+	public String mypageUpdate(HttpSession session, @ModelAttribute("mypageUpdateForm") Member member, @RequestParam String currentPassword, Model model) {
+		 Member sessionMember = (Member) session.getAttribute("user");
+		 	
+		 	// null 
+		 	if (currentPassword.isEmpty()) {
+		        model.addAttribute("passwordError", "비밀번호를 입력해주세요.");
+		        return "redirect:/mypage";
+		    }
+		 	
+		 	// 일치
+		    if (currentPassword.equals(sessionMember.getMemberPass())) {
+		        member.setMemberNum(sessionMember.getMemberNum());
+		        memberService.update(member);
+		        // 수정 후, 세션 업데이트
+		        session.setAttribute("user", member);
+		    // 불일치    
+		    } else {
+		    	model.addAttribute("passwordError", "비밀번호가 일치하지 않습니다.");
+		        return "redirect:/mypage";
+		    }
+
+
+		    return "redirect:/";
+	}	    
+
 
 	 
 	 
